@@ -5,6 +5,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 import os
 import glob
 
@@ -23,6 +24,9 @@ app.add_middleware(
 # independente de onde o comando for executado
 PASTA_BASE = os.path.dirname(os.path.abspath(__file__))
 PASTA_IMAGENS = os.path.join(PASTA_BASE, "figurinhas")
+
+# Monta a pasta de arquivos estáticos em /imgs para servir as imagens
+app.mount("/imgs", StaticFiles(directory=PASTA_IMAGENS), name="imgs")
 
 # Lista de figurinhas do álbum.
 # As figurinhas sem imagem na pasta figurinhas/ ficam comentadas
@@ -58,9 +62,14 @@ figurinhas = [
     {"id": 27, "nome": "Gi",                  "categoria": "Alura",             "imagem_url": "/figurinhas/27/imagem"},
     {"id": 28, "nome": "Vinicius",            "categoria": "Alura",             "imagem_url": "/figurinhas/28/imagem"},
     {"id": 29, "nome": "Rafa",                "categoria": "Alura",             "imagem_url": "/figurinhas/29/imagem"},
-    # Ainda sem imagem na pasta figurinhas/ — descomente quando adicionar o arquivo 30-*
-    # {"id": 30, "nome": "???",               "categoria": "Alura",             "imagem_url": "/figurinhas/30/imagem"},
+    {"id": 30, "nome": "Theuxdev",           "categoria": "Alura",             "imagem_url": "/figurinhas/30/imagem"},
 ]
+
+
+@app.get("/")
+def hello_world():
+    # Retorna uma mensagem simples para verificar se o servidor está funcionando
+    return {"mensagem": "Olá, mundo! 🌍"}
 
 
 @app.get("/figurinhas")
