@@ -1,23 +1,22 @@
 // ===================================================
-// CONFIGURAÇÃO DA API
-// Quando o frontend for servido pelo FastAPI (Dia 3), a API está
-// no mesmo servidor — usamos uma URL relativa ou o endereço completo.
-// Para hospedagem estática no GitHub Pages, use o parâmetro `?api=` para
-// apontar para a URL do backend se ele estiver rodando em outro host.
+// CONFIGURAÇÃO DA API (docs build)
+// O frontend hospedado em `docs/` aponta por padrão para o backend
+// no FastAPI Cloud quando não estiver em localhost. Para sobrescrever,
+// passe `?api=` na URL.
 // ===================================================
 const queryParams = new URLSearchParams(window.location.search);
+const API_PARAM = queryParams.get("api");
+const DEFAULT_REMOTE_API = "https://album-alura-imersao.fastapicloud.dev";
 const API_BASE_URL =
-  queryParams.get("api") ||
+  API_PARAM ||
   (window.location.hostname === "localhost" ||
   window.location.hostname === "127.0.0.1"
     ? "http://localhost:8000"
-    : null);
-const HAS_API = API_BASE_URL !== null;
+    : DEFAULT_REMOTE_API);
+const HAS_API = Boolean(API_BASE_URL);
 
-if (!HAS_API) {
-  console.warn(
-    "⚠️ GitHub Pages exige um backend API externo. Use ?api=https://seu-backend.com para conectar.",
-  );
+if (!API_PARAM && !window.location.hostname.includes("localhost")) {
+  console.info("⚠️ Usando backend remoto padrão:", DEFAULT_REMOTE_API);
 }
 
 // ===================================================

@@ -2,8 +2,18 @@
 // CONFIGURAÇÃO DA API
 // Quando o frontend for servido pelo FastAPI (Dia 3), a API está
 // no mesmo servidor — usamos uma URL relativa ou o endereço completo.
+// Se o site estiver hospedado no GitHub Pages (ou outra hospedagem
+// estática) apontamos por padrão para o backend no FastAPI Cloud.
 // ===================================================
-const API_BASE_URL = "http://localhost:8000";
+const queryParams = new URLSearchParams(window.location.search);
+const API_PARAM = queryParams.get("api");
+const DEFAULT_REMOTE_API = "https://album-alura-imersao.fastapicloud.dev";
+const API_BASE_URL =
+  API_PARAM ||
+  (window.location.hostname === "localhost" ||
+  window.location.hostname === "127.0.0.1"
+    ? "http://localhost:8000"
+    : DEFAULT_REMOTE_API);
 
 // ===================================================
 // FUNÇÃO: Preenche os slots do álbum com imagens da API
