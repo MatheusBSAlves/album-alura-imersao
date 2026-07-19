@@ -34,6 +34,14 @@ Exemplo:
 
 > No projeto raiz, o frontend ainda usa `http://localhost:8000` por padrão, então localmente você pode rodar o backend e abrir `index.html` para ver tudo funcionando.
 
+## Vercel
+
+Se você fizer deploy no Vercel, use o frontend estático em `docs/` e passe a URL do backend como query string:
+
+`https://<seu-projeto>.vercel.app/?api=https://meu-backend.herokuapp.com`
+
+O backend FastAPI não roda diretamente no Vercel sem conversão para funções serverless, portanto a forma mais segura é hospedar o backend em outro serviço e apontar o frontend para ele.
+
 ## Notas
 
 - As cores do projeto são definidas em `style.css` dentro do bloco `:root`.
