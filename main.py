@@ -28,6 +28,12 @@ PASTA_IMAGENS = os.path.join(PASTA_BASE, "figurinhas")
 # Monta a pasta de arquivos estáticos em /imgs para servir as imagens
 app.mount("/imgs", StaticFiles(directory=PASTA_IMAGENS), name="imgs")
 
+# Serve the static frontend from `docs/` when deployed together with the API.
+# This avoids CORS issues when the site and API share the same origin.
+PASTA_DOCS = os.path.join(PASTA_BASE, "docs")
+if os.path.isdir(PASTA_DOCS):
+    app.mount("/", StaticFiles(directory=PASTA_DOCS, html=True), name="site")
+
 # Lista de figurinhas do álbum.
 # As figurinhas sem imagem na pasta figurinhas/ ficam comentadas
 # até a imagem ser adicionada.
